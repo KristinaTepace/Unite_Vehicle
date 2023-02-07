@@ -1,18 +1,17 @@
-var express = require('express')
-var cookieParser = require('cookie-parser')
+const express = require('express')
+const app = express();
+const cors = require("cors");
 
-var app = express()
-app.use(cookieParser())
+//middleware
+app.use(express.json()) //req.body
+app.use(cors())
 
-app.get('/', function (req, res) {
-  // Cookies that have not been signed
-  console.log('Cookies: ', req.cookies)
+//Routes
 
-  // Cookies that have been signed
-  console.log('Signed Cookies: ', req.signedCookies)
-})
-
-app.listen(8080)
-
-// curl command that sends an HTTP request with two cookies
-// curl http://127.0.0.1:8080 --cookie "Cho=Kim;Greet=Hello"
+//sign up and sign 
+app.use("/auth", require("./routes/jwtAuth"))
+// dashboard 
+app.use("/dashboard", require("./routes/dashboard"));
+app.listen(5000,  () => {
+  console.log ("Server is running on the port 5000");
+});
